@@ -35,5 +35,16 @@ def welcome(request):
             return redirect("welcome")
         else:
             likeform = LikeForm()
+            
+    if request.method == 'POST' and 'unliker' in request.POST:
+        post_id = request.POST.get("unliker")
+        post = Post.objects.get(pk=post_id)
+        control = str(request.user.id)+"-"+str(post.id)
+        like_delete = Like.objects.get(control=control)
+        like_delete.delete()
+        
+    if request.method == 'POST':
+        form = CommentForm(request.Post)
+        
     
     return HttpResponse('Welcome to MoreGram')
