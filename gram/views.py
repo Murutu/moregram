@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like
 from django.http import HttpResponse
-from .forms import NewsLetterForm,LikeForm
+from .forms import NewsLetterForm,LikeForm,CommentForm
 # Create your views here.
 
 
@@ -44,7 +44,28 @@ def welcome(request):
         like_delete.delete()
         
     if request.method == 'POST':
-        form = CommentForm(request.Post)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post_id = int(request.POST.get("idpost"))
+            post = Post.objects.get(id = post_id)
+            comment = form.save(commit=False)
+            comment.username = request.user
+            comment.post = post
+            comment.save()
+            return redirect("welcome")
+        
+        else:
+            form = CommentForm()
+            
+            posts= Post.objects.all().order_by("-id")
+    likes = Like.objects.all()
+    likez = Like.objects.values_list('control', flat=True)
+    likez =list(likez)
+
+    return render(request,'timeline.html',{"posts":posts,"profiles":profiles,"current_user":current_user,"comments":comments,"form":form, "likeform":likeform, "likes":likes,"likez":likez,})
+
+
+            
         
     
     return HttpResponse('Welcome to MoreGram')
