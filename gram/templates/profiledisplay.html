@@ -11,3 +11,81 @@
                 class="rounded img-fluid" alt="" width="200" height="200">
             {% endif %}
         </div>
+
+
+        <div class="col-md-3">
+            <p class="mt-1 font-weight-bold font-italic">{{user.username.username}}</p>
+            <p>{{user.fullname}}</p>
+
+            {% if user == current_user %}
+            <a href="{% url 'edit-profile' %}">
+                <button class="btn btn-warning btn-sm" type="button" name="button"><i class="fas fa-pencil-alt"></i> &nbsp; Edit
+                    Profile</button>
+            </a>
+            <a href="/logout/">
+                <button class="btn btn-danger btn-sm" type="button" name="button"> <img
+                        src="https://bit.ly/38kVynl" width="20"> Logout</button>
+            </a>
+            <p></p>
+            {% endif %}
+            {% if user != current_user %}
+            {% with temp=request.user.id|stringformat:"i"|add:"-"  %}
+            {% with follow=user.id|stringformat:"i" %}
+            {% with tempfollow=temp|add:follow %}
+            {% if tempfollow in followz %}
+            <form action="{%url 'profile' user.username.id%}" method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+                <input type="hidden" name="unfollower" style="position:relative;left:10px" value='{{user.id}}'>
+                <button class="btn btn-danger" type="submit"><img
+                        src="https://bit.ly/31JV9IM" width="24">UnFollow</button>
+            </form>
+            {% else %}
+            <form action="{%url 'profile' user.username.id%}" method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+                <input type="hidden" name="follower" style="position:relative;left:10px" value='{{user.id}}'>
+                <button class="btn btn-success" type="submit"><img
+                        src="https://bit.ly/2ONBjqN" width="24">Follow</button>
+            </form>
+
+            {% endif %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+
+            {% endif %}
+        </div>
+
+
+        <div class="col-md-3">
+            {% autoescape on %}
+            <p>{{user.bio | safe}}</p>
+            {% endautoescape %}
+
+            <p>{{user.phonenumber}}</p>
+            <p>{{user.gender}}</p>
+        </div>
+    </div>
+    <p><strong>Following:</strong> {{following}}</p>
+    <p><strong>Followers:</strong> {{follower}}</p>
+    <p class="mt-5 font-weight-bold" style="text-decoration: underline;">Photos</p>
+    {% if user == current_user %}
+    <a href="{% url 'new-post' %}">
+        <button class="btn btn-success" type="button" name="button"><img
+                src="https://bit.ly/2UIowcY" width="24"> Add Photo</button>
+    </a>
+    {% endif %}
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-4">
+            <a href="{{post.photo_pic.url}}" data-fancybox="images"
+                data-buttons='["zoom","slideShow","fullScreen","thumbs","share","close"]' data-caption='<p>{{post.upload_by.username}}</p>
+                                                                <p>{{post.caption}}</p>
+                                                                <p>Location: {{post.location}}</p>
+                                                                <input type="text" placeholder="Add Comment" name="" value="">
+                                                                <button type="submit" >Submit Comment</button>'>
+                <img src="{{post.photo_pic.url}}" alt="" width="300" height="200">
+            </a>
+        </div>
+        {% endfor %}
+    </div> 
+
