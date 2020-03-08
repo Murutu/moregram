@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Post,Profile,Comment,Like
 from django.http import HttpResponse
-from .forms import NewsLetterForm
+from .forms import NewsLetterForm,LikeForm
 # Create your views here.
 def welcome(request):
     posts = Post.objects.all().order_by("-id")
