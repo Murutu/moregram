@@ -17,6 +17,10 @@ def welcome(request):
             if post.id == like.post.id:
                 num_likes +=1
                 post.likes = num_likes
-                post.save
+                post.save()
+                
+    if request.method == 'POST' and 'liker' in request.POST:
+        post_id = request.POST.get("liker")
+        likeform = LikeForm(request.POST)
     
     return HttpResponse('Welcome to MoreGram')
