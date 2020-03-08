@@ -1,12 +1,12 @@
 from django.test import TestCase
-from .models import Location,Profile,Post,Comment
+from .models import Location
 from django.contrib.auth.models import User
 
 
 # Create your tests here.
 class LocationTestClass(TestCase):
     def setUp(self):
-        self.place = Location(location='Moringa')
+        self.place = Location(location='Nairobi')
 
     def test_instance(self):
         self.assertTrue(isinstance(self.place,Location))
@@ -20,7 +20,7 @@ class LocationTestClass(TestCase):
         self.assertTrue(len(locations)>0)
 
     def test_delete_method(self):
-        self.place.delete_location('Moringa')
+        self.place.delete_location('Nairobi')
         locations = Location.objects.all()
         self.assertTrue(len(locations)==0)
 
