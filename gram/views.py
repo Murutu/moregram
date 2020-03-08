@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
-from .models import Post,Profile,Comment,Like
+from .models import Post,Profile,Comment,Like,Follow
 from django.http import HttpResponse
-from .forms import NewsLetterForm,LikeForm,CommentForm
+from .forms import NewsLetterForm,LikeForm,CommentForm,ProfileFrom
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -77,6 +77,14 @@ def search_results(request):
     else:
         messages="You haven't searched for any term."
         return render(request,'search.html',{"message":message})
+    
+@login_required(login_url='/accounts/login/')
+def profile(request,id):
+    user_object = request.user
+    current_user = Profile.objects.get(username__id=request.user.id)
+    user = Profile.objects.get(username__id=id)
+    posts = Post.objects.filter(upload_by = user)
+    follows = Follow.objects.all()
 
 
             
