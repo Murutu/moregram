@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like,Follow
 from django.http import HttpResponse
-from .forms import NewsLetterForm,LikeForm,CommentForm,ProfileFrom,FollowForm,NewPostForm
+from .forms import NewsLetterForm,LikeForm,CommentForm,ProfileForm,FollowForm,NewPostForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -151,7 +151,7 @@ def new_post(request):
         return render(request, 'new_post.html', {"form": form})
     
 @login_required(login_url='/accounts/login/')
-def edit_profile(request):
+def update_profile(request):
     current_user=request.user
     user_edit = Profile.objects.get(username__id=current_user.id)
     if request.method =='POST':
@@ -159,6 +159,14 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             print('success')
+            
+            
+    else:
+        form=ProfileForm(instance=request.user.profile)
+        print('error')
+
+
+    return render(request,'updateprofile.html',locals())
 
 
 

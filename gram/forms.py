@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post,Comment
+from .models import Post,Comment,Profile
 from .models import *
 
 
@@ -31,3 +31,9 @@ class ProfileForm(forms.ModelForm):
 class Meta:
        model=Profile
        exclude=['username']
+       
+class FollowForm(forms.ModelForm):
+    class Meta:
+        model=Follow
+        exclude=['username','followed','follow_id']
+
