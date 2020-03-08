@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like,Follow
 from django.http import HttpResponse
-from .forms import NewsLetterForm,LikeForm,CommentForm,ProfileFrom
+from .forms import NewsLetterForm,LikeForm,CommentForm,ProfileFrom,FollowForm,NewPostForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -85,6 +85,71 @@ def profile(request,id):
     user = Profile.objects.get(username__id=id)
     posts = Post.objects.filter(upload_by = user)
     follows = Follow.objects.all()
+    
+    
+    if request.method == 'POST' and 'follower' in request.POST:
+        print("follow saved")
+        followed_user_id = request.POST.get("follower")
+        followform = FollowForm(request.POST)
+        if followform.is_valid():
+            followed_user_id = int(request.POST.get("follower"))
+            current_user = Profile.objects.get(username__id=request.user.id)
+            follow = followform.save(commit=False)
+            follow.username = request.user
+            followed_user = User.objects.get(pk=followed_user_id)
+            print(followed_user)
+            follow.followed = followed_user
+            follow.follow_id = str(follow.username.id)+"-"+str(follow.followed.id)
+            follow.save()
+            print("follow saved")
+
+        return redirect("profile", user.username.id)
+    else:
+        followform = FollowForm()
+
+    if request.method == 'POST' and 'unfollower' in request.POST:
+        followed_user_id = request.POST.get("unfollower")
+        followed_user = User.objects.get(pk=followed_user_id)
+        follow_id = str(request.user.id)+"-"+str(followed_user.id)
+        follow_delete = Follow.objects.get(follow_id=follow_id)
+        follow_delete.delete()
+
+
+
+    follows = Follow.objects.all()
+    followz = Follow.objects.values_list('follow_id', flat=True)
+    followz =list(followz)
+    follower =0
+    following = 0
+    for follow in followz:
+        follow = follow.split("-")
+        if follow[0] == str(user.username.id):
+            following+=1
+        if follow[-1] == str(user.username.id):
+            follower+=1
+
+
+    return render(request, "profile.html", {"current_user":current_user,"posts":posts,"user":user,"user_object":user_object, "follows":follows, "followz":followz,"follower":follower,"following":following})
+
+    def following(request):
+        if request.method == 'POST' and 'follower' in request.POST:
+            print("follow saved")
+            
+@login_required(login_url='/accounts/login/')
+def new_post(request):
+    current_user = Profile.objects.get(username__id=request.user.id)
+    if request.method == 'POST':
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.upload_by = current_user
+            post.save()
+        return redirect('gram')
+
+    else:
+        form = NewPostForm()
+        return render(request, 'new_post.html', {"form": form})
+
 
 
             
