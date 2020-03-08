@@ -176,6 +176,76 @@
         </div>
     </header>
 
+
+    <section class="features" id="photos">
+        <h1 class="text-center" style="color: tomato;">{{user.username}} MoreGram Gallery </h1>
+        {%if profile%}
+        
+        {% if user.is_authenticated %}
+       
+        <div>
+                <h1 class="text-center">{{user.username}} bio: {{profile.bio}}</h1>
+        </div>
+        {%endif%}
+       
+        {%else%}
+        <div>
+            <h1 class="text-center">{{user.username}} has no bio</h1>
+        </div>
+        {%endif%}
+        
+        
+        <div class="row">
+            {%if images%}
+            {% for images in images%}
+            {% if user.is_authenticated %}
+           
+            <div class="col-lg-4">
+                <div class="feature-item">
+                    <a href="{% url 'photo' images.id %}"><img src="{{images.image.url}}" id ="zoom" alt="myimage"
+                            style="height:300px;width:300px;"></a>
+                    <div>
+
+                    </div>
+
+                    <!-- <a href="{% url 'makecomment' %}">Make comment</a> -->
+                    <div class="row">
+                        <p>Name: {{images.image_name}}</p>
+                        <hr>
+                        <p class="text-muted">Caption: {{images.image_caption}}</p>
+
+<!-- 
+                        <form action="{% url 'like_a_post' %}" method="post">
+                            {% csrf_token %}
+                            <button class="like" type="submit" name="post_id" value="{{images.id}}"><img width="45px"
+                                    height="40px"
+                                    src="https://www.freepngimg.com/thumb/heart/67620-heart-instagram-icons-button-computer-like.png">Like
+                                Post</button>
+                        </form> -->
+                        <hr>
+                        <p>Likes: {{images.likes.count}}</p>
+                        <hr>
+                        <a href="/photo/{{images.id}}">More</a><hr>
+                        <a href="{% url 'delete' images.id %}">Delete</a>
+                        <hr>
+                    </div>
+                    <!-- <a href="% url 'deletephoto' %"><button>Delete Post</button></a> -->
+                </div>
+            </div>
+            {%endif%}
+            {%endfor%}
+            {%else%}
+            
+                <h1 style="color: tomato;margin-left:37%;" >No photos posted yet</h1>
+            
+            {%endif%}
+            
+        </div>
+        </div>
+        </div>
+    </section>
+
+
 </body>
 
 
