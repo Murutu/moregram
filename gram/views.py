@@ -2,9 +2,10 @@ from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like
 from django.http import HttpResponse
 from .forms import NewsLetterForm,LikeForm,CommentForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(login_url='/accounts/login/')
 def welcome(request):
     posts = Post.objects.all().order_by("-id")
     profiles = Profile.objects.all()
@@ -62,7 +63,20 @@ def welcome(request):
     likez = Like.objects.values_list('control', flat=True)
     likez =list(likez)
 
-    return render(request,'timeline.html',{"posts":posts,"profiles":profiles,"current_user":current_user,"comments":comments,"form":form, "likeform":likeform, "likes":likes,"likez":likez,})
+    return render(request,'welcome.html',{"posts":posts,"profiles":profiles,"current_user":current_user,"comments":comments,"form":form, "likeform":likeform, "likes":likes,"likez":likez,})
+
+@login_required(login_url='/accounts/login/')
+def search_results(request):
+    if 'search' in request.GET and request.GET["search"]:
+        search_term = request.GET.get("search")
+        searched_users = User.search_user(search_term)
+        messages = f"{search_term}"
+        
+        return render(request,'search.html',{"message":message,"users":searched_users})
+
+    else:
+        messages="You haven't searched for any term."
+        return render(request,'search.html',{"message":message})
 
 
             
