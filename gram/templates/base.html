@@ -207,21 +207,10 @@
                     <div>
 
                     </div>
-
-                    <!-- <a href="{% url 'makecomment' %}">Make comment</a> -->
                     <div class="row">
                         <p>Name: {{images.image_name}}</p>
                         <hr>
                         <p class="text-muted">Caption: {{images.image_caption}}</p>
-
-<!-- 
-                        <form action="{% url 'like_a_post' %}" method="post">
-                            {% csrf_token %}
-                            <button class="like" type="submit" name="post_id" value="{{images.id}}"><img width="45px"
-                                    height="40px"
-                                    src="https://www.freepngimg.com/thumb/heart/67620-heart-instagram-icons-button-computer-like.png">Like
-                                Post</button>
-                        </form> -->
                         <hr>
                         <p>Likes: {{images.likes.count}}</p>
                         <hr>
@@ -229,7 +218,6 @@
                         <a href="{% url 'delete' images.id %}">Delete</a>
                         <hr>
                     </div>
-                    <!-- <a href="% url 'deletephoto' %"><button>Delete Post</button></a> -->
                 </div>
             </div>
             {%endif%}
@@ -243,6 +231,72 @@
         </div>
         </div>
         </div>
+    </section>
+
+
+
+    <section id="users">
+        <div class="container">
+            <h1 class="text-center" style="color:tomato;">MoreGram Stories </h1>
+
+            <div class="container-fluid">
+                <hr class="mt-2 mb-5">
+                <div class="row text-lg-left">
+                    {%if everyone %}
+                    {% for everyone in everyone %}
+                    {% if user.is_authenticated %}
+                    <div class="col-lg-4 col-md-4 col-6">
+                        <a href="{% url 'photo' everyone.id %}" class="d-block mb-4 h-100" >
+                            <img id="zoom" class="img-fluid img-thumbnail" src="{{everyone.image.url}}" alt="testphoto" style="height:300px;width:300px;">
+                        </a>
+                    </div>
+                    <div>
+                        <h6>Posted by: {{everyone.editor}} </h6>
+                        <h6>Followers: {{everyone.followers.count}}</h6>
+                        <h6>Likes: {{everyone.likes.count}}</h6>
+                        <h6>Name:{{everyone.image_name}}</h6>
+                       
+                        <form action="{% url 'like_a_post' %}" method="post">
+                            {% csrf_token %}
+                            <button class="like" type="submit" name="post_id" value="{{everyone.id}}"><img width="45px"
+                                    height="40px"
+                                    src="https://www.freepngimg.com/thumb/heart/67620-heart-instagram-icons-button-computer-like.png">Like
+                                Post</button>
+                        </form>
+                        <a href="/photo/{{everyone.id}}">Comment</a><br>
+                        <a href="{% url 'displayprofile' everyone.editor.id %}">View Profile</a>
+                       
+
+                        <form action="{% url 'follow' %}" method="post">
+                            {% csrf_token %}
+                            <button class="follow" type="submit" name="post_id" value="{{everyone.id}}"><img width="45px"
+                                    height="40px"
+                                    src="https://www.freepngimg.com/thumb/heart/67620-heart-instagram-icons-button-computer-like.png">Follow
+                            </button>
+                        </form>
+                        <hr>
+                       
+                    </div>
+                    {%endif%}
+                    {%endfor%}
+                    {%else%}
+                   
+                        <h1 style="margin-left: 26%;">No community stories posted yet</h1>
+                   
+                    {%endif%}
+
+                   
+                </div>
+                <hr>
+            </div>
+
+        </div>
+        <!--            
+            <a href="#contact" class="btn btn-outline btn-xl js-scroll-trigger">Let's Get Started!</a> -->
+        </div>
+
+        <!-- <div class="overlay"></div> -->
+
     </section>
 
 
