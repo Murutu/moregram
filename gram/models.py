@@ -32,7 +32,7 @@ def search_profile(cls,search_term):
 class Post(models.Model):
     photo_pic = models.ImageField(upload_to = 'photos/',null=True)
     caption = models.CharField(max_length=300)
-    upload_by = models.ForeignKey(Profile)
+    upload_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     likes = models.IntegerField(default=0)
     post_date=models.DateTimeField(auto_now_add=True)
 
@@ -79,8 +79,8 @@ def save_like(self):
     self.save()
 
 class Follow(models.Model):
-    username = models.ForeignKey(User, related_name='follower')
-    followed = models.ForeignKey(User, related_name='followed')
+    username = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    followed = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     follow_id = models.CharField(max_length=50,unique=True, null=True)
 
 def __str__(self):

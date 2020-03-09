@@ -5,7 +5,7 @@ from .models import *
 class LikeForm(forms.ModelForm):
     class Meta:
         model=Like
-    exclude=['username','post']
+        exclude=['username','post']
     
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -21,8 +21,7 @@ class NewPostForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
        def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-       self.fields['fullname'].widget=forms.TextInput()
-class Meta:
+      
        model=Profile
        exclude=['username']
        
