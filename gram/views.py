@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like,Follow
 from django.http import HttpResponse
-from .forms import NewsLetterForm,LikeForm,CommentForm,ProfileForm,FollowForm,NewPostForm
+from .forms import LikeForm,CommentForm,ProfileForm,FollowForm,NewPostForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 

@@ -30,8 +30,8 @@ def search_profile(cls,search_term):
     return profiles
 
 class Post(models.Model):
-    photo_pic = models.ImageField(upload_to = 'photos/')
-    caption = models.CharField(max_length=3000)
+    photo_pic = models.ImageField(upload_to = 'photos/',null=True)
+    caption = models.CharField(max_length=300)
     upload_by = models.ForeignKey(Profile)
     likes = models.IntegerField(default=0)
     post_date=models.DateTimeField(auto_now_add=True)
