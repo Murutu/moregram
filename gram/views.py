@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404,HttpResponseRedirect
 from .forms import LikeForm,CommentForm,ProfileForm,FollowForm,NewPostForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')

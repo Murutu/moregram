@@ -27,8 +27,8 @@ SECRET_KEY = 'ui1dr#+dyz-m1_g*e(vonff2l8t30#ecv_rppn&a^!3m421_&u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-LOGIN_REDIRECT_URL = reverse_lazy('Gram')
-LOGOUT_REDIRECT_URL = reverse_lazy('Profile')
+LOGIN_REDIRECT_URL = reverse_lazy('profile')
+LOGOUT_REDIRECT_URL = reverse_lazy('profile')
 
 ALLOWED_HOSTS = []
 
