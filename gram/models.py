@@ -78,10 +78,10 @@ def __str__(self):
 def save_like(self):
     self.save()
 
-class Follow(models.Model):
-    username = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
-    followed = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
-    follow_id = models.CharField(max_length=50,unique=True, null=True)
+# class Follow(models.Model):
+#     username = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+#     followed = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+#     follow_id = models.CharField(max_length=50,unique=True, null=True)
 
 def __str__(self):
     return self.follow_id

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Post,Profile,Comment,Like,Follow
+from .models import Post,Profile,Comment,Like
 from django.http import HttpResponse
 from .forms import LikeForm,CommentForm,ProfileForm,FollowForm,NewPostForm
 from django.contrib.auth.decorators import login_required
@@ -84,7 +84,7 @@ def profile(request,id):
     current_user = Profile.objects.get(username__id=request.user.id)
     user = Profile.objects.get(username__id=id)
     posts = Post.objects.filter(upload_by = user)
-    follows = Follow.objects.all()
+    # follows = Follow.objects.all()
     
     
     if request.method == 'POST' and 'follower' in request.POST:

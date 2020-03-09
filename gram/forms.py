@@ -27,6 +27,6 @@ class ProfileForm(forms.ModelForm):
        
 class FollowForm(forms.ModelForm):
     class Meta:
-        model=Follow
+        
         exclude=['username','followed','follow_id']
 

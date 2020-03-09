@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from decouple import config
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,9 @@ SECRET_KEY = 'ui1dr#+dyz-m1_g*e(vonff2l8t30#ecv_rppn&a^!3m421_&u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+LOGIN_REDIRECT_URL = reverse_lazy('Gram')
+LOGOUT_REDIRECT_URL = reverse_lazy('Profile')
 
 ALLOWED_HOSTS = []
 
