@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
   <div class="css-typing">
-    <p>Hi {{user.username}}!</p>
+    <p> {{user.username}}!</p>
   </div>
   <div class="row">
     <div class="col-md-8 col-lg-8 feed">
@@ -58,6 +58,34 @@
               {% endwith %}
               {% endwith %}
               {% endwith %}
+             <div class="card-body">
+                <div class="card-footer-section">
+                  <h5 class="card-title username float-left">{{post.likes}} likes</h5>
+                  {% with temp=request.user.id|stringformat:"i"|add:"-"  %}
+                  {% with control=post.id|stringformat:"i" %}
+                  {% with tempcontrol=temp|add:control %}
+                  {% if tempcontrol in likez %}
+                  <form action="{%url 'welcome'%}" method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    {% bootstrap_form like_form %}
+                    <input type="hidden" name="unliker" style="position:relative;left:10px" value='{{post.id}}'>
+                    <button class="btn btn-sm btn-link" type="submit"><img
+                        src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678087-heart-128.png" alt=""
+                        width="24px"></button> 
+                  </form>
+                  {% else %}
+                  <form action="{%url 'welcome'%}" method="post" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <input type="hidden" name="liker" style="position:relative;left:10px" value='{{post.id}}'>
+                    <button class="btn btn-sm btn-link" type="submit"><img class=""
+                        src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-heart-outline-128.png" alt=""
+                        width="24px"></button>
+                  </form>
+              {% endif %}
+              {% endwith %}
+              {% endwith %}
+              {% endwith %}
+              
               <div id="card{{post.id}}" class="mt-2">
                 {%for comment in comments%}
                 {%if comment.post.id == post.id%}
@@ -66,10 +94,10 @@
                 </p>
                 {%endif%}
                 {%endfor%}
-                <form action="{%url 'welcome' %}" method="post" enctype="multipart/form-data">
+                <form action="{%url 'new_comment' %}" method="post" enctype="multipart/form-data">
                   {%csrf_token%}
                   <input type="hidden" name="idpost" style="position:relative;left:10px" value='{{post.id}}'>
-                  {% bootstrap_form form layout='inline' %}
+                  {% bootstrap_form comment_form %}
                   <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
                 </form>
               </div>
@@ -100,7 +128,7 @@
               class="rounded img-fluid" alt="" width="75px" height="75px">
             {% endif %}
             <p class="profile-username" style="float:right;"> <a
-                href="{% url 'profile' profile.username.id %}">{{profile.username}}</a></p>
+                href="profile/{{profile.user.id}}">{{profile.username}}</a></p>
             <button class="btn btn-primary" value='{{user.id}}'>Follow</button>
             <hr>
           </div>
