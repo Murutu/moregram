@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Post,Profile,Comment,Like
-from django.http import HttpResponse,Http404,HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, request
 from .forms import LikeForm,CommentForm,ProfileForm,FollowForm,NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -23,48 +23,49 @@ def welcome(request):
                 post.likes = num_likes
                 post.save()
                 
-    if request.method == 'POST' and 'liker' in request.POST:
-        post_id = request.POST.get("liker")
-        likeform = LikeForm(request.POST)
-        if likeform.is_valid():
-            post_id = int(request.Post.get("liker"))
-            like = likeform.save(commit=False)
-            like.username = request.user
-            like.post = post
-            like.control = str(like.username.id)+"-"+str(like.post.id)
-            like.save()
-            print("like saved")
-            return redirect("welcome")
-        else:
-            likeform = LikeForm()
+    # if request.method == 'POST' and 'liker' in request.POST:
+    #     post_id = request.POST.get("liker")
+    #     likeform = LikeForm(request.POST)
+    #     if likeform.is_valid():
+    #         post_id = int(request.Post.get("liker"))
+    #         like = likeform.save(commit=False)
+    #         like.username = request.user
+    #         like.post = post
+    #         like.control = str(like.username.id)+"-"+str(like.post.id)
+    #         like.save()
+    #         print("like saved")
+    #         return redirect("welcome")
+    #     else:
+    #         likeform = LikeForm()
             
-    if request.method == 'POST' and 'unliker' in request.POST:
-        post_id = request.POST.get("unliker")
-        post = Post.objects.get(pk=post_id)
-        control = str(request.user.id)+"-"+str(post.id)
-        like_delete = Like.objects.get(control=control)
-        like_delete.delete()
+    # if request.method == 'POST' and 'unliker' in request.POST:
+    #     post_id = request.POST.get("unliker")
+    #     post = Post.objects.get(pk=post_id)
+    #     control = str(request.user.id)+"-"+str(post.id)
+    #     like_delete = Like.objects.get(control=control)
+    #     like_delete.delete()
         
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            post_id = int(request.POST.get("idpost"))
-            post = Post.objects.get(id = post_id)
-            comment = form.save(commit=False)
-            comment.username = request.user
-            comment.post = post
-            comment.save()
-            return redirect("welcome")
+    # if request.method == 'POST':
+    #     form = CommentForm(request.POST)
+    #     if form.is_valid():
+    #         post_id = int(request.POST.get("idpost"))
+    #         post = Post.objects.get(id = post_id)
+    #         comment = form.save(commit=False)
+    #         comment.username = request.user
+    #         comment.post = post
+    #         comment.save()
+    #         return redirect("welcome")
         
-        else:
-            form = CommentForm()
+    #     else:
+    #         form = CommentForm()
+    
             
-            posts= Post.objects.all().order_by("-id")
+    posts= Post.objects.all().order_by("-id")
     likes = Like.objects.all()
     likez = Like.objects.values_list('control', flat=True)
     likez =list(likez)
 
-    return render(request,'welcome.html',{"posts":posts,"profiles":profiles,"current_user":current_user,"comments":comments,"form":form, "likeform":likeform, "likes":likes,"likez":likez,})
+    return render(request,'welcome.html',{"posts":posts,"profiles":profiles,"current_user":current_user,"comments":comments})
 
 @login_required(login_url='/accounts/login/')
 def search_results(request):
@@ -170,3 +171,29 @@ def update_profile(request):
 
 
         return render(request,'updateprofile.html')
+    
+@login_required(login_url='accounts/login/')
+def new_comment(request, id):
+    
+    
+    current_user = request.user
+    
+    current_post = Post.object.get(id=id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post_id = int(request.POST.get("idpost"))
+            post = Post.objects.get(id = post_id)
+            comment = form.save(commit=False)
+            comment.username = request.user
+            comment.post = post
+            comment.save()
+            return redirect("welcome")
+        
+        else:
+            form = CommentForm()
+            
+    return render(request,'comment.html',{"form":form, "current_post":current_post})
+    
+    
+    

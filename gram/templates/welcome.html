@@ -39,7 +39,7 @@
               {% with control=post.id|stringformat:"i" %}
               {% with tempcontrol=temp|add:control %}
               {% if tempcontrol in likez %}
-              <form action="{%url 'timeline'%}" method="post" enctype="multipart/form-data">
+              <form action="{%url 'welcome'%}" method="post" enctype="multipart/form-data">
                 {%csrf_token%}
                 <input type="hidden" name="unliker" style="position:relative;left:10px" value='{{post.id}}'>
                 <button class="btn btn-sm btn-link" type="submit"><img
@@ -47,7 +47,7 @@
                     width="24px"></button>
               </form>
               {% else %}
-              <form action="{%url 'timeline'%}" method="post" enctype="multipart/form-data">
+              <form action="{%url 'welcome'%}" method="post" enctype="multipart/form-data">
                 {%csrf_token%}
                 <input type="hidden" name="liker" style="position:relative;left:10px" value='{{post.id}}'>
                 <button class="btn btn-sm btn-link" type="submit"><img class=""
@@ -66,7 +66,7 @@
                 </p>
                 {%endif%}
                 {%endfor%}
-                <form action="{%url 'timeline' %}" method="post" enctype="multipart/form-data">
+                <form action="{%url 'welcome' %}" method="post" enctype="multipart/form-data">
                   {%csrf_token%}
                   <input type="hidden" name="idpost" style="position:relative;left:10px" value='{{post.id}}'>
                   {% bootstrap_form form layout='inline' %}
