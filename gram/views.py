@@ -136,7 +136,7 @@ def profile(request,id):
         if request.method == 'POST' and 'follower' in request.POST:
             print("follow saved")
             
-@login_required(login_url='/accounts/login/')
+
 def new_post(request):
     current_user = Profile.objects.get(username__id=request.user.id)
     if request.method == 'POST':
@@ -151,27 +151,22 @@ def new_post(request):
         form = NewPostForm()
         return render(request, 'new_post.html', {"form": form})
     
-@login_required(login_url='/accounts/login/')
+
 def update_profile(request):
     current_user=request.user
-    user_edit = Profile.objects.get(username__id=current_user.id)
+    update_profile = Profile.objects.get(user_id = current_user.id)
     if request.method =='POST':
-        form=ProfileForm(request.POST,request.FILES,instance=request.user.profile)
+        form=ProfileForm(request.POST)
+        update_profile. name = form.cleaned_data['your_name']
+        update_profile.email = form.cleaned_data['email']
         if form.is_valid():
-            form.save()
-            print('success')
+                form.save()
+                print('success')
             
             
-    else:
-        form=ProfileForm(instance=request.user.profile)
-        print('error')
+        else:
+           form=ProfileForm()
+           print('error')
 
 
-    return render(request,'updateprofile.html',locals())
-
-
-
-            
-        
-    
-    return HttpResponse('Welcome to MoreGram')
+        return render(request,'updateprofile.html')

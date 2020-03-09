@@ -8,7 +8,7 @@ from django.db.models import Q
 class Profile(models.Model):
    profile_pic = models.ImageField(upload_to='photos/',null=True)
    fullname = models.CharField(max_length=200,null=True)
-   username = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
+   user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
    bio = models.TextField(max_length=100)
    email = models.EmailField(null=True)
    phonenumber = models.IntegerField(null=True)
