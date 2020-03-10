@@ -95,12 +95,7 @@
                 </p>
                 {%endif%}
                 {%endfor%}
-                <form action="comment/{{comment.id}}"></form> method="post" enctype="multipart/form-data">
-                  {%csrf_token%}
-                  <input type="hidden" name="idpost" style="position:relative;left:10px" value='{{post.id}}'>
-                  {% bootstrap_form comment_form %}
-                  <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
-                </form>
+               
                 <a href="comment/{{post.id}}">View Comment</a>
               </div>
             </div>

@@ -166,12 +166,16 @@ def update_profile(request):
         return render(request,'updateprofile.html')
     
 @login_required(login_url='accounts/login/')
-def new_comment(request, id):
+def new_comment(request,id):
     
     
     current_user = request.user
+    comment_form = CommentForm()
     
-    current_post = Post.object.get(id=id)
+    
+    
+    current_post = Post.objects.get(id=id)
+    comments=Comment.objects.filter(post=id)
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -179,14 +183,15 @@ def new_comment(request, id):
             post = Post.objects.get(id = post_id)
             comment = comment_form.save(commit=False)
             comment.username = request.user
+            post = Post.objects.get(id=id)
             comment.post = post
             comment.save()
-            return redirect("welcome")
+        return redirect("welcome")
         
-        else:
-            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
             
-    return render(request,'comment.html',{"comment_form":comment_form, "current_post":current_post})
+    return render(request,'comment.html',{"comment_form":comment_form,"comments":comments, "current_post":current_post})
 
 
     
