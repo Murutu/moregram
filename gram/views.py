@@ -187,6 +187,7 @@ def new_comment(request, id):
             comment_form = CommentForm()
             
     return render(request,'comment.html',{"comment_form":comment_form, "current_post":current_post})
-    
+
+
     
     
