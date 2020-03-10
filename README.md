@@ -1,5 +1,5 @@
 ## Title
-More Gram
+MoreGram
 
 ### Author
 Peter Murutu
