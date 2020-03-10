@@ -14,7 +14,7 @@ Special acknowledgement to the popular application Instagram which has been used
 * run "pip install" in your terminal to install python packages and "pip update" to update the packages.
 
 ### User Stories
-In the app after you sign in you should be able to to see your profile and access the app itself.In the app you will be able to see other posts and click on them to get a better view of the image, see the caption and location.A user can also add a comment.
+In the app after you sign in you should be able to to see your profile and access the app itself.In the app you will be able to see other posts and click on them to get a better view of the image,like there image, see the caption, and location.A user can also add a comment.
 
 ### Technologies used
 ```sh
